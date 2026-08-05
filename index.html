@@ -340,6 +340,40 @@
   </a>
 
   <script>
+    const linkWhatsApp =
+      "https://chat.whatsapp.com/GSif4RS3CgMJ9IP0wg4pVz";
+
+    function registrarCliqueWhatsApp() {
+      try {
+        localStorage.setItem(
+          "ultimo_clique_whatsapp",
+          new Date().toISOString()
+        );
+      } catch (erro) {}
+
+      if (
+        typeof window.gtag === "function"
+      ) {
+        window.gtag(
+          "event",
+          "click_whatsapp",
+          {
+            event_category: "conversao",
+            event_label: "grupo_achados_ofertas"
+          }
+        );
+      }
+
+      if (
+        typeof window.fbq === "function"
+      ) {
+        window.fbq(
+          "trackCustom",
+          "ClickWhatsAppGroup"
+        );
+      }
+    }
+
     document
       .querySelectorAll(".js-whatsapp")
       .forEach(function (link) {
@@ -347,40 +381,28 @@
         link.addEventListener(
           "click",
           function () {
-
-            try {
-              localStorage.setItem(
-                "ultimo_clique_whatsapp",
-                new Date().toISOString()
-              );
-            } catch (erro) {}
-
-            if (
-              typeof window.gtag === "function"
-            ) {
-              window.gtag(
-                "event",
-                "click_whatsapp",
-                {
-                  event_category: "conversao",
-                  event_label: "grupo_achados_ofertas"
-                }
-              );
-            }
-
-            if (
-              typeof window.fbq === "function"
-            ) {
-              window.fbq(
-                "trackCustom",
-                "ClickWhatsAppGroup"
-              );
-            }
-
+            registrarCliqueWhatsApp();
           }
         );
 
       });
+
+    window.addEventListener(
+      "load",
+      function () {
+
+        setTimeout(
+          function () {
+            registrarCliqueWhatsApp();
+
+            window.location.href =
+              linkWhatsApp;
+          },
+          1000
+        );
+
+      }
+    );
   </script>
 
 </body>
